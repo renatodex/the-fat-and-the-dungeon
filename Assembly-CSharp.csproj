@@ -172,7 +172,13 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\Scripts\GridMode.cs" />
+     <Compile Include="Assets\Scripts\Helpers\FlipHelper.cs" />
+     <Compile Include="Assets\Scripts\Helpers\MoveCoroutineKiller.cs" />
+     <Compile Include="Assets\Scripts\Helpers\MoveHelper.cs" />
+     <Compile Include="Assets\Scripts\Helpers\RectHelper.cs" />
      <Compile Include="Assets\Scripts\LeroyController.cs" />
+     <Compile Include="Assets\Scripts\MonsterController.cs" />
      <Compile Include="Assets\TestScript.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.5.3.txt" />
