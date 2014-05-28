@@ -175,6 +175,8 @@ public class MonsterController : MonoBehaviour {
 
 		this._playerInfo.getScript().Attack(this._action_selector, this);
 
+		Pick.Instance.getBattleActionsController()._MonsterDamage.Play();
+
 		Debug.Log ("Porcentagem de HP restante: " + this.getNpc().getHpPercentage());
 
 		Pick.Instance.getHpBarController().updateBar(this.getNpc().getHpPercentage());

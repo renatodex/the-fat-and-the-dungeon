@@ -9,4 +9,5 @@ public class BattleActionsController : MonoBehaviour {
 	public AudioSource _AttackFood;
 	public AudioSource _AttackPose;
 	public AudioSource _AttackScaryFace;
+	public AudioSource _MonsterDamage;
 }
