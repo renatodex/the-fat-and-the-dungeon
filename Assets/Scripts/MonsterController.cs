@@ -179,6 +179,8 @@ public class MonsterController : MonoBehaviour {
 
 		Debug.Log ("Porcentagem de HP restante: " + this.getNpc().getHpPercentage());
 
+		Pick.Instance.getCameraController().doTheShake();
+
 		Pick.Instance.getHpBarController().updateBar(this.getNpc().getHpPercentage());
 
 		yield return null;

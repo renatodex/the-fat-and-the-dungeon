@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BattleActionsController.cs" />
+     <Compile Include="Assets\CameraController.cs" />
      <Compile Include="Assets\GameController.cs" />
      <Compile Include="Assets\HpBarController.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />

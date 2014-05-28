@@ -28,6 +28,10 @@ public class Pick : Singleton<Pick>
 	public HpBarController getHpBarController() {
 		return Pick.Instance.getHpBar().FindChild("Amount").GetComponent<HpBarController>();
 	}
+
+	public CameraController getCameraController() {
+		return Camera.main.GetComponent<CameraController>();
+	}
 }
 
 public class PlayerInfo

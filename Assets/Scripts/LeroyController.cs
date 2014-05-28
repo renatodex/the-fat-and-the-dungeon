@@ -29,10 +29,14 @@ public class LeroyController : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		if(GUILayout.Button("Get Chicken HP")) {
+		/*if(GUILayout.Button("Get Chicken HP")) {
 			MonsterController monster = GameObject.Find ("Monster:Chicken").GetComponent<MonsterController>();
 			Debug.Log ("Chicken HP: " + monster.getNpc()._hp + "/" + monster.getNpc().getCurrentHp());
 		}
+
+		if(GUILayout.Button("Shake Camera")) {
+			Camera.main.GetComponent<CameraController>().doTheShake();
+		}*/
 	}
 
 	void drawButton(string state) {
