@@ -13,6 +13,10 @@ public class Pick : Singleton<Pick>
 		return GameObject.FindGameObjectWithTag("BattleActions").transform;
 	}
 
+	public BattleActionsController getBattleActionsController() {
+		return Pick.Instance.getBattleActions().GetComponent<BattleActionsController>();
+	}
+
 	public GameController getGameController() {
 		return GameObject.Find ("GameObject").GetComponent<GameController>();
 	}

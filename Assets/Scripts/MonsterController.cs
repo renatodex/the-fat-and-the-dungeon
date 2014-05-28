@@ -20,6 +20,7 @@ public class MonsterController : MonoBehaviour {
 
 	private List<Animator> _hudActionsMapper;
 	private List<string> _leroyAnimationMapper;
+	private List<AudioSource> _hudActionSoundMapper;
 
 
 	public NpcAttributes getNpc() {
@@ -53,6 +54,13 @@ public class MonsterController : MonoBehaviour {
 		this._leroyAnimationMapper.Add ("attack_food");
 		this._leroyAnimationMapper.Add ("attack_pose");
 		this._leroyAnimationMapper.Add ("attack_fart");
+
+		BattleActionsController battleActionController = Pick.Instance.getBattleActionsController();
+		this._hudActionSoundMapper = new List<AudioSource>();
+		this._hudActionSoundMapper.Add (battleActionController._AttackScaryFace);
+		this._hudActionSoundMapper.Add (battleActionController._AttackFood);
+		this._hudActionSoundMapper.Add (battleActionController._AttackPose);
+		this._hudActionSoundMapper.Add (battleActionController._AttackFart);
 	}
 
 	private Vector3 getBottomPosition() {
@@ -75,13 +83,19 @@ public class MonsterController : MonoBehaviour {
 		}
 	}
 
+	private void selectorChange() {
+		Pick.Instance.getBattleActionsController()._BlipSound.Play();
+	}
+
 	private void decreaseSelector() {
+		this.selectorChange();
 		if(this._action_selector > 0) {
 			this._action_selector--;
 		}
 	}
 
 	private void increaseSelector() {
+		this.selectorChange();
 		if(this._action_selector < 3) {
 			this._action_selector++;
 		}
@@ -125,6 +139,10 @@ public class MonsterController : MonoBehaviour {
 			if(Input.GetKeyDown(KeyCode.Return)) {
 				Debug.Log ("Tecla pressionada");
 
+				Pick.Instance.getBattleActionsController()._SelectAttack.Play();
+
+				this._hudActionSoundMapper[this._action_selector].Play();
+
 				this._playerInfo.getAnimator().SetBool(this._leroyAnimationMapper[this._action_selector], true);
 				yield return new WaitForSeconds(1f);
 				this._playerInfo.getAnimator().SetBool(this._leroyAnimationMapper[this._action_selector], false);
@@ -142,6 +160,8 @@ public class MonsterController : MonoBehaviour {
 				Pick.Instance.getGameController().battleSound.Stop();
 
 				Pick.Instance.getHpBar().renderer.enabled = false;
+
+				Pick.Instance.getBattleActionsController()._MonsterKill.Play();
 
 				yield break;
 			}

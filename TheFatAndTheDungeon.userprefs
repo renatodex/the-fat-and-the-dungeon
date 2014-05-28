@@ -1,10 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MonsterController.cs">
     <Files>
-      <File FileName="Assets/Scripts/MonsterController.cs" Line="147" Column="37" />
-      <File FileName="Assets/Scripts/GamePicker.cs" Line="25" Column="10" />
-      <File FileName="Assets/Scripts/NpcAttributes.cs" Line="39" Column="30" />
+      <File FileName="Assets/HpBarController.cs" Line="17" Column="3" />
+      <File FileName="Assets/Scripts/LeroyController.cs" Line="21" Column="17" />
+      <File FileName="Assets/Scripts/MonsterController.cs" Line="144" Column="70" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

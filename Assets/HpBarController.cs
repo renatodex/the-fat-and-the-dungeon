@@ -14,18 +14,7 @@ public class HpBarController : MonoBehaviour {
 		newScale.x = this._maxWidth*hpPercentage/100f;
 		transform.localScale = newScale;
 
-		if(hpPercentage == 100f) {
-			renderer.material.color = this._colorHealthy;
-		}
-		
-		if(hpPercentage < 60f) {
-			renderer.material.color = this._colorInjured;
-		}
-		
-		if(hpPercentage < 30f) {
-			renderer.material.color = this._colorCritical;
-		}
-		//this.colorChange(hpPercentage);
+		this.colorChange(hpPercentage);
 	}
 
 	public void colorChange(float percentage) {
