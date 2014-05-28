@@ -31,5 +31,13 @@ public class NpcAttributes
 			this._currentHp -= final_damage;
 		}
 	}
+
+	// conta de padaria pra saber a porcentagem
+	//100 - maxhp
+	//x - current
+
+	public float getHpPercentage() {
+		return 100f*this._currentHp/this._hp;
+	}
 }
 

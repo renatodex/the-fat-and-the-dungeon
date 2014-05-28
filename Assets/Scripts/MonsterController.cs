@@ -28,13 +28,16 @@ public class MonsterController : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		Debug.Log ("battle sights start ");
+
 
 		this._npc = new NpcAttributes();
 		this._npc._name = this._name;
 		this._npc._hp = this._hp;
 		this._npc._attack_power = this._attack_power;
 		this._npc._defense_power = this._defense_power;
+
 
 		StartCoroutine("sp_BattleSight");
 		this._playerInfo = new PlayerInfo();
@@ -52,13 +55,21 @@ public class MonsterController : MonoBehaviour {
 		this._leroyAnimationMapper.Add ("attack_fart");
 	}
 
+	private Vector3 getBottomPosition() {
+		Vector3 floorPosition = GameObject.FindGameObjectWithTag("Floor").transform.position;
+		return new Vector3(transform.position.x, floorPosition.y, transform.position.z);
+	}
+
 	IEnumerator sp_BattleSight() {
 		while(true) {
-			Debug.DrawRay(transform.position, Vector3.left*12f, Color.red, 1f);
+
 			if(Physics2D.Raycast(transform.position, Vector3.left, 12f)) {
+				Debug.DrawRay(transform.position, Vector3.left*12f, Color.green, 1f);
 				Debug.Log ("battle!");
 				StartCoroutine("sp_Battle");
 				yield break;
+			} else {
+				Debug.DrawRay(transform.position, Vector3.left*12f, Color.red, 1f);
 			}
 			yield return null;
 		}
@@ -87,6 +98,14 @@ public class MonsterController : MonoBehaviour {
 		this.getNpc().prepareToBattle();
 		this._playerInfo.getNpc().prepareToBattle();
 
+		Pick.Instance.getGameController().dungeonSound.Stop();
+		Pick.Instance.getGameController().battleSound.Play();
+
+		Pick.Instance.getHpBar().renderer.enabled = true;
+		Pick.Instance.getHpBar().transform.position = this.getBottomPosition();
+
+		Pick.Instance.getHpBarController().updateBar(this.getNpc().getHpPercentage());
+
 		yield return null;
 	}
 
@@ -104,17 +123,26 @@ public class MonsterController : MonoBehaviour {
 				this.updateBattleIconHover();
 			}
 			if(Input.GetKeyDown(KeyCode.Return)) {
+				Debug.Log ("Tecla pressionada");
+
 				this._playerInfo.getAnimator().SetBool(this._leroyAnimationMapper[this._action_selector], true);
 				yield return new WaitForSeconds(1f);
 				this._playerInfo.getAnimator().SetBool(this._leroyAnimationMapper[this._action_selector], false);
 
 				StartCoroutine("sp_ExecuteAttack");
+			
 			}
 
 			if(this.getNpc().isFainted()) {
 				this._playerInfo.getScript().setDisable(false);
 				GameObject.Destroy(this.gameObject);
 				Pick.Instance.getBattleActions().position = new Vector3(-999f,-999f,0f);
+
+				Pick.Instance.getGameController().dungeonSound.Play();
+				Pick.Instance.getGameController().battleSound.Stop();
+
+				Pick.Instance.getHpBar().renderer.enabled = false;
+
 				yield break;
 			}
 		
@@ -123,8 +151,13 @@ public class MonsterController : MonoBehaviour {
 	}
 
 	IEnumerator sp_ExecuteAttack() {
+		Debug.Log ("Ataque executando..");
+
 		this._playerInfo.getScript().Attack(this._action_selector, this);
-		//PoderDeAtaque + RANDOM(-MargemAtaque,0) + PoderDeAtaque*FatorFraqueza
+
+		Debug.Log ("Porcentagem de HP restante: " + this.getNpc().getHpPercentage());
+
+		Pick.Instance.getHpBarController().updateBar(this.getNpc().getHpPercentage());
 
 		yield return null;
 	}

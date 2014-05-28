@@ -12,6 +12,18 @@ public class Pick : Singleton<Pick>
 	public Transform getBattleActions() {
 		return GameObject.FindGameObjectWithTag("BattleActions").transform;
 	}
+
+	public GameController getGameController() {
+		return GameObject.Find ("GameObject").GetComponent<GameController>();
+	}
+
+	public Transform getHpBar() {
+		return GameObject.FindGameObjectWithTag("HpBar").transform;
+	}
+
+	public HpBarController getHpBarController() {
+		return Pick.Instance.getHpBar().FindChild("Amount").GetComponent<HpBarController>();
+	}
 }
 
 public class PlayerInfo
