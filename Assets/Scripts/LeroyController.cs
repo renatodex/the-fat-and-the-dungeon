@@ -7,10 +7,15 @@ public class LeroyController : MonoBehaviour {
 	public int _hp;
 	public int _attack_power;
 	public int _defense_power;
-	
+
+	public AudioSource _hittedSound;
+
 	private bool _isDisabled;
 	private Animator _animator;
 	private NpcAttributes _npc;
+	private int _weight;
+
+
 
 	public NpcAttributes getNpc() {
 		return this._npc;
@@ -26,6 +31,31 @@ public class LeroyController : MonoBehaviour {
 		this._npc._hp = this._hp;
 		this._npc._attack_power = this._attack_power;
 		this._npc._defense_power = this._defense_power;
+
+		this._weight = 200;
+		this.updateWeightLabel();
+
+		this.getNpc().init();
+	}
+
+	void updateWeightLabel() {
+		GUILabel label = Pick.Instance.getLabelByName("player_weight");
+		label.setText(this.getWeight().ToString());
+	}
+
+	public void looseWeight(int value) {
+		this._weight -= value;
+		this.updateWeightLabel();
+
+	}
+
+	public void gainWeight(int value) {
+		this._weight += value;
+		this.updateWeightLabel();
+	}
+
+	public int getWeight() {
+		return this._weight;
 	}
 
 	void OnGUI() {
@@ -80,6 +110,12 @@ public class LeroyController : MonoBehaviour {
 	public Vector3 getHeadPosition() {
 		Vector3 headPosition = transform.position;
 		headPosition.y += 0f;
+		return headPosition;
+	}
+
+	public Vector3 getBottomPosition() {
+		Vector3 headPosition = transform.position;
+		headPosition.y -= 3.4f;
 		return headPosition;
 	}
 

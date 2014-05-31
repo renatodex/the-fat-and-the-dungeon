@@ -10,7 +10,7 @@ public class NpcAttributes
 
 	private int _currentHp = 1;
 
-	public void prepareToBattle() {
+	public void init() {
 		this._currentHp = this._hp;
 	}
 

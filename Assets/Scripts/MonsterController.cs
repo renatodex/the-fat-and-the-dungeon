@@ -32,13 +32,12 @@ public class MonsterController : MonoBehaviour {
 	void Awake () {
 		Debug.Log ("battle sights start ");
 
-
 		this._npc = new NpcAttributes();
 		this._npc._name = this._name;
 		this._npc._hp = this._hp;
 		this._npc._attack_power = this._attack_power;
 		this._npc._defense_power = this._defense_power;
-
+		this._npc.init();
 
 		StartCoroutine("sp_BattleSight");
 		this._playerInfo = new PlayerInfo();
@@ -109,16 +108,17 @@ public class MonsterController : MonoBehaviour {
 		this._action_selector = 0;
 		this.updateBattleIconHover();
 
-		this.getNpc().prepareToBattle();
-		this._playerInfo.getNpc().prepareToBattle();
-
 		Pick.Instance.getGameController().dungeonSound.Stop();
 		Pick.Instance.getGameController().battleSound.Play();
 
-		Pick.Instance.getHpBar().renderer.enabled = true;
-		Pick.Instance.getHpBar().transform.position = this.getBottomPosition();
 
-		Pick.Instance.getHpBarController().updateBar(this.getNpc().getHpPercentage());
+		Pick.Instance.getLeroyHpBar().renderer.enabled = true;
+		Pick.Instance.getLeroyHpBar().transform.position = this._playerInfo.getScript().getBottomPosition();
+		Pick.Instance.getLeroyHpBarController().updateBar(this._playerInfo.getNpc().getHpPercentage());
+
+		Pick.Instance.getMonsterHpBar().renderer.enabled = true;
+		Pick.Instance.getMonsterHpBar().transform.position = this.getBottomPosition();
+		Pick.Instance.getMonsterHpBarController().updateBar(this.getNpc().getHpPercentage());
 
 		yield return null;
 	}
@@ -147,31 +147,36 @@ public class MonsterController : MonoBehaviour {
 				yield return new WaitForSeconds(1f);
 				this._playerInfo.getAnimator().SetBool(this._leroyAnimationMapper[this._action_selector], false);
 
-				StartCoroutine("sp_ExecuteAttack");
-			
-			}
+				StartCoroutine("sp_LeroyAttack");
+				yield return new WaitForSeconds(0.5f);
 
-			if(this.getNpc().isFainted()) {
-				this._playerInfo.getScript().setDisable(false);
-				GameObject.Destroy(this.gameObject);
-				Pick.Instance.getBattleActions().position = new Vector3(-999f,-999f,0f);
+				if(this.getNpc().isFainted()) {
+					this._playerInfo.getScript().setDisable(false);
+					GameObject.Destroy(this.gameObject);
+					Pick.Instance.getBattleActions().position = new Vector3(-999f,-999f,0f);
+					
+					Pick.Instance.getGameController().dungeonSound.Play();
+					Pick.Instance.getGameController().battleSound.Stop();
+					
+					Pick.Instance.getLeroyHpBar().transform.position = new Vector3(-999f, -999f, 0f);
+					Pick.Instance.getMonsterHpBar().renderer.enabled = false;
+					
+					Pick.Instance.getBattleActionsController()._MonsterKill.Play();
+					
+					this._playerInfo.getScript().looseWeight(1);
+					
+					yield break;
+				}
 
-				Pick.Instance.getGameController().dungeonSound.Play();
-				Pick.Instance.getGameController().battleSound.Stop();
-
-				Pick.Instance.getHpBar().renderer.enabled = false;
-
-				Pick.Instance.getBattleActionsController()._MonsterKill.Play();
-
-				yield break;
+				StartCoroutine("sp_MonsterAttack");
 			}
 		
 			yield return null;
 		}
 	}
 
-	IEnumerator sp_ExecuteAttack() {
-		Debug.Log ("Ataque executando..");
+	IEnumerator sp_LeroyAttack() {
+		Debug.Log ("Leroy Atacando..");
 
 		this._playerInfo.getScript().Attack(this._action_selector, this);
 
@@ -181,9 +186,29 @@ public class MonsterController : MonoBehaviour {
 
 		Pick.Instance.getCameraController().doTheShake();
 
-		Pick.Instance.getHpBarController().updateBar(this.getNpc().getHpPercentage());
+		Pick.Instance.getMonsterHpBarController().updateBar(this.getNpc().getHpPercentage());
 
 		yield return null;
+	}
+
+	IEnumerator sp_MonsterAttack() {
+		Debug.Log ("Monstro Atacando..");
+		this.Attack();
+		this._playerInfo.getScript()._hittedSound.Play();
+		Pick.Instance.getCameraController().doTheShake();
+
+		Pick.Instance.getLeroyHpBarController().updateBar(this._playerInfo.getNpc().getHpPercentage());
+		yield return null;
+	}
+
+	public void Attack() {
+		int power = this.getNpc()._attack_power;
+		float attack_margin = Random.Range(-0.2f,0f);
+		int damage_formula = (int) Mathf.Ceil(power + power*attack_margin);
+		
+		Debug.Log ("Monster hitted leroy by "+ damage_formula);
+		
+		this._playerInfo.getNpc().hit(damage_formula);
 	}
 
 	public float getWeaknessByChoosenAttack(int attack) {

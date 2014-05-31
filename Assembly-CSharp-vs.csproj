@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\BattleActionsController.cs" />
      <Compile Include="Assets\CameraController.cs" />
+     <Compile Include="Assets\GUILabel.cs" />
      <Compile Include="Assets\GameController.cs" />
      <Compile Include="Assets\HpBarController.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
@@ -186,7 +187,6 @@
      <Compile Include="Assets\Scripts\MonsterController.cs" />
      <Compile Include="Assets\Scripts\NpcAttributes.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
-     <Compile Include="Assets\TestScript.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.5.3.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />

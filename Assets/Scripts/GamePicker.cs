@@ -21,16 +21,40 @@ public class Pick : Singleton<Pick>
 		return GameObject.Find ("GameObject").GetComponent<GameController>();
 	}
 
-	public Transform getHpBar() {
-		return GameObject.FindGameObjectWithTag("HpBar").transform;
+	public Transform getMonsterHpBar() {
+		return GameObject.Find("MonsterHpBar").transform;
 	}
 
-	public HpBarController getHpBarController() {
-		return Pick.Instance.getHpBar().FindChild("Amount").GetComponent<HpBarController>();
+	public Transform getLeroyHpBar() {
+		return GameObject.Find("LeroyHpBar").transform;
+	}
+
+	public HpBarController getMonsterHpBarController() {
+		return Pick.Instance.getMonsterHpBar().FindChild("Amount").GetComponent<HpBarController>();
+	}
+
+	public HpBarController getLeroyHpBarController() {
+		return Pick.Instance.getLeroyHpBar().FindChild("Amount").GetComponent<HpBarController>();
 	}
 
 	public CameraController getCameraController() {
 		return Camera.main.GetComponent<CameraController>();
+	}
+
+	public GUILabel getLabelByName(string name) {
+		try {
+			GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("GUILabel");
+			foreach(GameObject gameObject in gameObjects) {
+				if(gameObject.GetComponent<GUILabel>().name == name) {
+					return gameObject.GetComponent<GUILabel>();
+				}
+			}
+
+			throw new UnityException("Could not found Label!");
+		} catch(UnityException e) {
+			Debug.Log (e.Message);
+			return this.getLabelByName("exception_label");
+		}
 	}
 }
 
